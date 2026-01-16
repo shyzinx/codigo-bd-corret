@@ -1,0 +1,45 @@
+SET sql_notes = 0;  
+USE BancoAcerto;
+CREATE TABLE if not exists usuarios (
+id INT AUTO_INCREMENT NOT NULL,
+nome VARCHAR(100) NOT NULL,
+email VARCHAR(100) NOT NULL UNIQUE,
+senha VARCHAR(255) NOT NULL,
+criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+PRIMARY KEY (id)
+);
+INSERT IGNORE INTO usuarios (nome, email, senha) 
+VALUES ('gabriella', 'gabiamm02@gmail.com', 'Neagle1?');
+
+CREATE TABLE IF NOT EXISTS grupos (
+id INT AUTO_INCREMENT PRIMARY KEY,
+nome VARCHAR(100) NOT NULL,
+crime_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS usuarios_grupos (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    usuario_id INT NOT NULL,
+    grupo_id INT NOT NULL,
+    FOREIGN KEY (usuario_id) REFERENCES usuarios(id),
+    FOREIGN KEY (grupo_id) REFERENCES grupos(id)
+);
+
+CREATE TABLE IF NOT EXISTS despesas (
+id INT AUTO_INCREMENT PRIMARY KEY,
+descricao VARCHAR(255) NOT NULL,
+valor DECIMAL(10,2) NOT NULL, 
+data_despesa DATE NOT NULL,
+
+pago_por INT NOT NULL,
+grupo_id INT NOT NULL,
+
+criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+FOREIGN KEY (pago_por) REFERENCES usuarios(id),
+FOREIGN KEY (grupo_id) REFERENCES grupos(id)
+);
+
+
+
+SET sql_notes = 1;  
